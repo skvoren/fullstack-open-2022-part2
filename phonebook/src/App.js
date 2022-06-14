@@ -19,7 +19,11 @@ const App = () => {
     const personObject = {
       name: newName
     }
-    setPersons(persons.concat(personObject))
+    if (persons.find(e => e.name === newName)) {
+      alert('name added already')
+    } else {
+      setPersons(persons.concat(personObject))
+    }
   }
 
   return (
