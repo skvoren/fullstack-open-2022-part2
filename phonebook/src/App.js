@@ -5,11 +5,16 @@ import Person from './components/Person'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    {name: 'Vlad', phone: "8-925-806-64-53"}
+    {name: 'Vlad', phone: "8-800-805-00-00"},
+    {name: 'Vika', phone: "8-800-805-00-00"},
+    {name: 'Sveta', phone: "8-800-805-00-00"},
+    {name: 'Roma', phone: "8-800-805-00-00"}
   ])
 
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
+  const [filter, setFilter] = useState('')
+  const [applyFilter, setApplyFilter] = useState(false)
 
   const newNameHandler = (event) => {
     event.preventDefault()
@@ -19,6 +24,15 @@ const App = () => {
   const newNumberHandler = (event) => {
     event.preventDefault()
     setNewPhone(event.target.value)
+  }
+
+  const filterHandler = (event) => {
+    event.preventDefault()
+    setApplyFilter(true)
+    setFilter(event.target.value)
+    if (!event.target.value) {
+      setApplyFilter(false)
+    }
   }
 
   const addPerson = (event) => {  
@@ -36,9 +50,16 @@ const App = () => {
     }
   }
 
+  const personsToShow = !applyFilter
+                        ? persons 
+                        : persons.filter(person => person.name.includes(filter) || person.phone.includes(filter))
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+       filter shown with: <input value={filter} onChange={filterHandler}/>
+      </div>
       <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={newNameHandler}/>
@@ -51,7 +72,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => 
+      {personsToShow.map(person => 
         <Person key={person.name} person={person}/>)}
     </div>
   )
