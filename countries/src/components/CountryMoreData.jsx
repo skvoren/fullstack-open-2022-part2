@@ -2,7 +2,6 @@ import React from 'react';
 import LanguagesList from "./LanguagesList";
 
 const CountryMoreData = ({country}) => {
-    console.log(country.languages)
     return (
         <div>
             <h1>{country.name.common}</h1>

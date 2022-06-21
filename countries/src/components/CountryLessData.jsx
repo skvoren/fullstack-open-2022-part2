@@ -1,8 +1,8 @@
 import React from 'react';
 
-const CountryLessData = ({country}) => {
+const CountryLessData = ({country, onClickHandler}) => {
     return (
-        <li>{country.name.common}</li>
+        <li>{country.name.common}<button onClick={onClickHandler}>show</button></li>
     );
 };
 
