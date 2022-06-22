@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const PersonForm = ({createPerson, persons}) => {
+const PersonForm = ({createPerson, updatePerson, persons}) => {
     const [person, setPerson] = useState({name: '', phone: ''})
 
     const newNameHandler = (event) => {
@@ -13,16 +13,28 @@ const PersonForm = ({createPerson, persons}) => {
 
     const addNewPerson = (event) => {
         event.preventDefault()
-        const newPerson = {
+        const personData = {
             ...person, id: Date.now()
         }
 
-        if (persons.find(person => person.name === newPerson.name || person.phone === newPerson.phone)) {
-            alert("data already exists!")
+        if (isPersonExists(personData)) {
+            if (window.confirm("That person already added in phonebook! Do you wanna replace person with a new one?")){
+                updatePerson(getPersonId(personData), personData)
+                setPerson({name: '', phone: ''})
+            }
         } else {
-            createPerson(newPerson)
+            createPerson(personData)
             setPerson({name: '', phone: ''})
         }
+    }
+
+    const isPersonExists = (personData) => {
+       return persons.find(p => p.name === personData.name || p.phone === personData.phone)
+    }
+
+    const getPersonId = (personData) => {
+        const personUnique = persons.filter(p => p.name === personData.name || p.phone === personData.phone)
+        return personUnique[0].id
     }
 
     return (

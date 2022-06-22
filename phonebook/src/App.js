@@ -25,6 +25,22 @@ const App = () => {
         })
   }
 
+  const updatePerson = (personId, updatedPerson) => {
+      personService
+          .update(personId, updatedPerson)
+          .then(response => {
+              setPersons(persons.map(person => person.id !== personId ? updatedPerson : response.data))
+          })
+  }
+
+  const removePerson = (person) => {
+      personService
+          .remove(person.id)
+          .then(_response => {
+              setPersons(persons.filter(p => p.id !== person.id))
+          })
+  }
+
   const personsToShow = !filter.length > 0
                         ? persons
                         : persons.filter(person => person.name.includes(filter) || person.phone.includes(filter))
@@ -34,9 +50,9 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter filter={filter} setFilter={setFilter}/>
       <h3>Create a new</h3>
-      <PersonForm createPerson={createPerson} persons={persons}/>
+      <PersonForm createPerson={createPerson} updatePerson={updatePerson} persons={persons}/>
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} removePerson={removePerson}/>
     </div>
   )
 }
