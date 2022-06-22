@@ -48,7 +48,15 @@ const App = () => {
           .remove(person.id)
           .then(_response => {
               setPersons(persons.filter(p => p.id !== person.id))
-          })
+          }).catch(_response => {
+              setMessage(`Information of ${person.name} already deleted from a server`)
+              setTimeout(() => {
+                  setMessage(null)
+              }, 5000)
+          setPersons(persons.filter(p => p.id !== person.id))
+      }
+
+      )
   }
 
   const personsToShow = !filter.length > 0
