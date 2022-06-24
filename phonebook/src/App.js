@@ -17,7 +17,7 @@ const App = () => {
           .then(response => {
               setPersons(response.data)
           })
-  }, [])
+  }, [message])
 
   const createPerson = (newPerson) => {
     personService
@@ -55,7 +55,6 @@ const App = () => {
               }, 5000)
           setPersons(persons.filter(p => p.id !== person.id))
       }
-
       )
   }
 
