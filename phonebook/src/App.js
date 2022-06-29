@@ -8,6 +8,7 @@ import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([])
+  const [filteredPersons, setFilteredPersons] = useState([])
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState(null)
 
@@ -18,6 +19,10 @@ const App = () => {
               setPersons(response.data)
           })
   }, [message])
+
+  useEffect(() => {
+      setFilteredPersons(persons.filter(person => person.name.includes(filter)))
+  }, [filter])
 
   const createPerson = (newPerson) => {
     personService
@@ -58,9 +63,7 @@ const App = () => {
       )
   }
 
-  const personsToShow = !filter.length > 0
-                        ? persons
-                        : persons.filter(person => person.name.includes(filter) || person.phone.includes(filter))
+  const personsToShow = filter ? filteredPersons : persons
 
   return (
     <div>
